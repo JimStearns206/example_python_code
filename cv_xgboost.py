@@ -2,7 +2,6 @@
 https://kaggle2.blob.core.windows.net/forum-message-attachments/44825/1290/test_xgboost.py?sv=2012-02-12&se=2015-12-14T21%3A28%3A18Z&sr=b&sp=r&sig=yQJmvA%2FpUqve9EDdkF1bWAaYjEtNFmcUfjQUHaTTD7U%3D
 """
 import csv
-import sys
 import numpy as np
 import scipy as sp
 import xgboost as xgb
@@ -91,7 +90,7 @@ def estimate_performance_xgboost(training_file, param, num_round, folds):
         # Construct matrix for test set
         xgmat_test = xgb.DMatrix(X_test, missing=-999.0)
         y_out = bst.predict(xgmat_test)
-        res  = [(i, y_out[i]) for i in xrange(len(y_out))]
+        res  = [(i, y_out[i]) for i in range(len(y_out))]
         rorder = {}
         for k, v in sorted(res, key = lambda x:-x[1]):
             rorder[k] = len(rorder) + 1
@@ -110,12 +109,12 @@ def estimate_performance_xgboost(training_file, param, num_round, folds):
             all_AMS[curr].append(this_AMS)
             if this_AMS > best_AMS:
                 best_AMS = this_AMS
-        print "Best AMS =", best_AMS
-    print "------------------------------------------------------"
+        print("Best AMS ={0}".format(best_AMS))
+    print("------------------------------------------------------")
     for curr, cut in enumerate(cutoffs):
-        print "Thresh = %.2f: AMS = %.4f, std = %.4f" % \
-            (cut, sp.mean(all_AMS[curr]), sp.std(all_AMS[curr]))
-    print "------------------------------------------------------"
+        print("Thresh = {0:.2f}: AMS = {1:.4f}, std = {2:.4f}".format(
+            (cut, sp.mean(all_AMS[curr]), sp.std(all_AMS[curr]))))
+    print("------------------------------------------------------")
 
 
 def main():
